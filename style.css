@@ -1,0 +1,23 @@
+.subsLayer {
+    z-index: 1000;
+    height: auto;
+    width: 600px;
+    position: absolute;
+    background: #fff;
+    text-align:center;
+    margin-top: 10px;
+}
+
+.subsLayer a {
+  display: block;
+}
+
+.throbber img{
+  height: 20px;
+  width: 20px;
+  margin: 0 10px;
+}
+
+.throbber span {
+  color: #fff;
+}
