@@ -24,14 +24,14 @@ function init() {
 	}
 
 
-	if(IS_YOUTUBE){
-		console.log("Is youtube");
-		var loadSubs = $("<a/>" , {"href" : "javascript:;", "class" : "loadsrt"});
-		loadSubs.html("Load subtitles");
-		var menu = "<div class="ytp-menu-row"><div class="ytp-menu-cell"></div></div>";
-		console.log($('.ytp-menu-content'));
-		$('.ytp-menu-content').append(loadSubs);
-	}
+	// if(IS_YOUTUBE){
+	// 	console.log("Is youtube");
+	// 	var loadSubs = $("<a/>" , {"href" : "javascript:;", "class" : "loadsrt"});
+	// 	loadSubs.html("Load subtitles");
+	// 	var menu = "<div class="ytp-menu-row"><div class="ytp-menu-cell"></div></div>";
+	// 	console.log($('.ytp-menu-content'));
+	// 	$('.ytp-menu-content').append(loadSubs);
+	// }
 
 
 }
@@ -425,4 +425,88 @@ $(window).load(function() {
 		$(".throbber").show();
 	});
 
+	$(document).on("keyup", function(e){
+		  handleShorcutKeys(e);
+			e.preventDefault();
+	});
+
 });
+
+function handleShorcutKeys(e){
+		var key = e.keyCode || e.which;
+
+		var v = $("video")[0];
+		if(key === 32){
+			//space bar
+			if(v.paused)  {
+				v.play();
+			}
+			else
+				v.pause();
+		}
+
+		if( key === 39){
+			// forward
+			setTime.call(v,10);
+			return false;
+		}
+		if(key === 37){
+			//rewind
+			setTime.call(v,-10);
+			return false;
+
+		}
+
+		if(key === 191){
+			// Toggle subtitles display
+			var tracks = v.textTracks[0];
+			if(tracks.mode == 'showing'){
+				tracks.mode = 'hidden';
+			}
+			else {
+				tracks.mode = 'showing';
+			}
+
+		}
+
+		if(key === 38){
+		    //Volume up
+		    setVolume.call(v,0.1);
+	  }
+	  if(key === 40){
+		    //Volume down
+		    setVolume.call(v,-0.1);
+	  }
+}
+
+function setTime(tValue) {
+	//  if no video is loaded, this throws an exception
+	var video = this;
+	try {
+		if (tValue === 0) {
+			video.currentTime = tValue;
+		}
+		else {
+			video.currentTime += tValue;
+		}
+
+	} catch (err) {
+		// errMessage(err) // show exception
+		errMessage("Video content might not be loaded");
+	}
+}
+
+
+ function setVolume(value) {
+		var video = this,
+    		vol = video.volume;
+    vol += value;
+    //  test for range 0 - 1 to avoid exceptions
+    if (vol >= 0 && vol <= 1) {
+      // if valid value, use it
+      video.volume = vol;
+    } else {
+      // otherwise substitute a 0 or 1
+      video.volume = (vol < 0) ? 0 : 1;
+    }
+  }
