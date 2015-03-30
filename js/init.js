@@ -69,7 +69,10 @@ function buildHTMLContent(){
 	container.append(subsLayer);
 
 	var videoCnt = $('video').parent().parent();
-	if(videoCnt.length == 0){
+	if(IS_XMOVIES8){
+		$('#subs-video-container').append(container);
+	}
+	else if(videoCnt.length == 0 ){
 		$('body').prepend(container);
 	}
 	else {
@@ -397,6 +400,19 @@ function minusButtonAction(track){
 $(window).load(function() {
 
 	//setTimeout(init, 5000);
+	// if(window.DoDetect){
+		if(IS_XMOVIES8){
+			var videoDiv = $("<div id='subs-video-container'></div>");
+			$("#ads-video,#ads-video-youtube").before(videoDiv);
+			var videoHTML = $("#ads-video,#ads-video-youtube").contents().remove();
+
+			// setTimeout ( function(){
+				videoDiv.append(videoHTML);
+
+			// }, 12000);	
+		}
+		
+	// }
 	var url = "http://subscene.com/subtitle/download?mac=5h7cPZqJQtp3gxOlmYwTvlbLF_YeiqKwsB62_ws6DQE0BIyZn5wIDndaqVB0ZE_U0",
 	fileName = "";
 	init();
@@ -445,12 +461,12 @@ function handleShorcutKeys(e){
 				v.pause();
 		}
 
-		if( key === 39){
+		if( key === 39 || key === 36){
 			// forward
 			setTime.call(v,10);
 			return false;
 		}
-		if(key === 37){
+		if(key === 37 || key === 33){
 			//rewind
 			setTime.call(v,-10);
 			return false;
