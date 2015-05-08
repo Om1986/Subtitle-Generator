@@ -402,12 +402,15 @@ $(window).load(function() {
 	//setTimeout(init, 5000);
 	// if(window.DoDetect){
 		if(IS_XMOVIES8){
+			var videoUrl = $(".movie-download:first a:last").attr("href");
+			$(".the-content iframe").remove();
+			var videoEl = $("<video height='600' width='800' src='"+ videoUrl + "' controls></video>");
 			var videoDiv = $("<div id='subs-video-container'></div>");
-			$("#ads-video,#ads-video-youtube").before(videoDiv);
-			var videoHTML = $("#ads-video,#ads-video-youtube").contents().remove();
+			videoDiv.append(videoEl);
+			
 
 			// setTimeout ( function(){
-				videoDiv.append(videoHTML);
+				$(".the-content").append(videoDiv);
 
 			// }, 12000);	
 		}
