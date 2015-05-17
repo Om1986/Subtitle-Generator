@@ -2,6 +2,7 @@ IS_XMOVIES8 = (location.origin === "http://xmovies8.co");
 IS_HDTVNET = (location.origin === "http://hdtvshows.net");
 IS_YIFY = (location.origin === "http://yify.tv");
 IS_YOUTUBE = (location.origin === "https://www.youtube.com");
+IS_IMTV =  (location.origin === "http://www.imtv.cc");
 
 function init() {
 
@@ -15,6 +16,12 @@ function init() {
 			$(".video, .inner h2 a").filter(function(){var x = this.href; this.href = x + "?player=html5";});
 	}
 
+	if(IS_IMTV){
+		$(".cut-list li a[href^='/play.php']").filter(function(){
+				var x = this.href;
+				this.href = x.replace("play.php", "play_htm5.php");
+			});
+	}
 	if(IS_HDTVNET){
 		$(".play li a[href], a.main-tt").filter(function(){
 				var x = this.href;
@@ -276,6 +283,12 @@ function loadSubtitles(){
 	if(IS_YIFY)
 	{
 		query = $("h1:first").text().split(" ").slice(1,-1).join(" ");
+	}
+	else if(IS_IMTV){
+		title = $(".player span a:last").text();
+		episode = $(".player h1").text().split(" ");
+
+		query = title + " Season " + episode[0].slice(1,-1) + " Episode " + episode[1].slice(2);
 	}
 
 else {
