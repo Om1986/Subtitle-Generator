@@ -2,7 +2,7 @@ IS_XMOVIES8 = (location.origin === "http://xmovies8.co");
 IS_HDTVNET = (location.origin === "http://hdtvshows.net");
 IS_YIFY = (location.origin === "http://yify.tv");
 IS_YOUTUBE = (location.origin === "https://www.youtube.com");
-IS_IMTV =  (location.origin === "http://www.imtv.cc");
+IS_IMTV =  (location.origin === "http://www.imtv.cc" || location.origin === "http://imtv.cc");
 
 function init() {
 
