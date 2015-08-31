@@ -1,4 +1,15 @@
-IS_XMOVIES8 = (location.origin === "http://xmovies8.co");
+Array.prototype.contains = function(str){
+  return this.some( function(v,i,a){
+    return v === str;
+  });
+};
+
+XMOVIES8_LIST = [
+	"http://xmovies8.co",
+	"http://xmovies8.tv",
+	"http://xmovies8.org",
+];
+IS_XMOVIES8 = (XMOVIES8_LIST.indexOf(location.origin) !== -1);
 IS_HDTVNET = (location.origin === "http://hdtvshows.net");
 IS_YIFY = (location.origin === "http://yify.tv");
 IS_YOUTUBE = (location.origin === "https://www.youtube.com");
@@ -56,7 +67,20 @@ function buildHTMLContent(){
 			minusButton = $("<input type='button' value='-' id='minusBtn' style='width:15px;margin-left:5px'>");
 
 
-	anchorMovie.text("Load Subtitles");
+	var textBox = $("<input />", {
+        type : "search"
+    });
+
+    var searchBtn = $("<input type='button' value='Search'>");
+    searchBtn.click(function(){
+        loadSubtitles(textBox.val());
+    });
+
+    var searchDiv = $("<div />");
+
+    searchDiv.append(textBox).append(searchBtn);
+
+    anchorMovie.text("Load Subtitles");
 	anchorMovie.css({"color" : "red" , "font-size" : 20});
 
 	span.text("Loading....");
@@ -66,7 +90,8 @@ function buildHTMLContent(){
 	throbber.hide();
 	successMsg.hide();
 
-	container.append(anchorMovie);
+	container.append(searchDiv);
+    container.append(anchorMovie);
 	container.append(throbber);
 	container.append(successMsg);
 
@@ -277,7 +302,7 @@ function srt2vtt(){
 }
 
 
-function loadSubtitles(){
+function loadSubtitles(_query){
 	var title,episode,query;
 
 	if(IS_YIFY)
@@ -310,7 +335,7 @@ else {
 
 	console.log(query);
 	//getSubtitles(query);
-	getSubtitlesFromExtension(query);
+	getSubtitlesFromExtension(_query || query);
 
 }
 
@@ -410,9 +435,16 @@ function minusButtonAction(track){
 
 }
 
+function clearTimers (){
+    var highestTimeoutId = setTimeout(";");
+    for (var i = 0 ; i < highestTimeoutId ; i++) {
+        clearTimeout(i);
+    }
+}
+
 $(window).load(function() {
 
-	//setTimeout(init, 5000);
+	setTimeout(clearTimers, 10000);
 	// if(window.DoDetect){
 		if(IS_XMOVIES8){
 			var videoUrl = $(".movie-download:first a:last").attr("href");
@@ -420,14 +452,14 @@ $(window).load(function() {
 			var videoEl = $("<video height='600' width='800' src='"+ videoUrl + "' controls></video>");
 			var videoDiv = $("<div id='subs-video-container'></div>");
 			videoDiv.append(videoEl);
-			
+
 
 			// setTimeout ( function(){
 				$(".the-content").append(videoDiv);
 
-			// }, 12000);	
+			// }, 12000);
 		}
-		
+
 	// }
 	var url = "http://subscene.com/subtitle/download?mac=5h7cPZqJQtp3gxOlmYwTvlbLF_YeiqKwsB62_ws6DQE0BIyZn5wIDndaqVB0ZE_U0",
 	fileName = "";

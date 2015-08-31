@@ -18,7 +18,7 @@
   "content_scripts": [ {
     "js": [ "js/jquery.js", "js/jquery.watch-2.0.min.js", "js/init.js", "jszip.min.js","jszip-utils.min.js","js/opensubtitles.js", "js/jquery.xmlrpc.min.js"],
     "css" : ["style.css"],
-    "matches": [ "*://xmovies8.co/*", "*://dl.opensubtitles.org/*", "*://hdtvshows.net/*", "*://*.imtv.cc/*" ]
+    "matches": [ "*://xmovies8.tv/*", "*://dl.opensubtitles.org/*", "*://hdtvshows.net/*", "*://*.imtv.cc/*" ]
     } ],
 
     "web_accessible_resources": ["images/*.gif"],
